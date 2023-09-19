@@ -1,0 +1,23 @@
+<div class="container">
+  <h2>Agregar Producto</h2>
+  <form action="#" method="post" [formGroup]="form" (ngSubmit)="addProduct()">
+      <input formControlName="name" type="text" id="nombre" name="nombre" placeholder="Ingrese nombre:" required>
+        <span *ngIf="form.get('name')?.hasError('required') && form.get('name')?.touched">
+          El campo nombre es <strong>requerido</strong>
+        </span>
+      <input formControlName="description" type="text" id="descripcion" name="descripcion" placeholder="Ingrese descripción:" required>
+        <span *ngIf="form.get('description')?.hasError('required') && form.get('description')?.touched">
+          El campo description es <strong>requerido</strong>
+        </span>
+      <input formControlName="price" type="number" id="precio" name="precio" min="0" step="0.01" placeholder="Ingrese precio:" required>
+        <span *ngIf="form.get('price')?.hasError('required') && form.get('price')?.touched">
+          El campo price es <strong>requerido</strong>
+        </span>
+      <input formControlName="stock" type="number" id="stock" name="stock" min="0" placeholder="Ingrese stock:" required>
+        <span *ngIf="form.get('stock')?.hasError('required') && form.get('stock')?.touched">
+          El campo stock es <strong>requerido</strong>
+        </span>
+      <button routerLink="/" type="button">Volver</button>
+      <button [disabled]="form.invalid" type="submit" value="Aceptar">Aceptar</button>
+  </form>
+</div>

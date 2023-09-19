@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="title">
+    <h1>Listado de productos</h1>
+    <button class="btn" routerLink="/add">Agregar Producto</button>
+  </div>
+  <table>
+    <tr>
+      <th>Nombre</th>
+      <th>Descripcion</th>
+      <th>Precio</th>
+      <th>Stock</th>
+      <th></th>
+    </tr>
+    <tbody>
+    <tr *ngFor="let item of listProducts">
+      <td>{{ item.name }}</td>
+      <td>{{ item.description }}</td>
+      <td>{{ item.price }}</td>
+      <td>{{ item.stock }}</td>
+      <td><button [routerLink]="['/edit', item.id]" class="btn1" style="background-color: green;">Edit</button>
+          <button class="btn1" style="background-color: red;">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+  </table>
+</div>

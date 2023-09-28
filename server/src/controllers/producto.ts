@@ -1,16 +1,26 @@
 import { Request, Response } from "express"
+import Producto from "../models/producto"
 
-export const getProducts = (req:Request, res:Response) => {
 
-    res.json({
-        msg:'get Products'
-    })
+export const getProducts = async(req:Request, res:Response) => {
+        const listProducts = await Producto.findAll()
+
+    res.json(listProducts)
 
 }
 
 
-export const getProduct = (req:Request, res:Response) => {
+export const getProduct = async(req:Request, res:Response) => {
     const { id } = req.params;
+    const product = await Producto.findByPk(id);
+
+    if(product){
+        res.json(product)
+    }else{
+        res.status(404).json({
+            msg:'No existe un producto con el id ${id}'
+        })
+    }
 
     res.json({
         msg:'get Product',
@@ -20,13 +30,20 @@ export const getProduct = (req:Request, res:Response) => {
 }
 
 
-export const deleteProduct = (req:Request, res:Response) => {
+export const deleteProduct = async (req:Request, res:Response) => {
     const { id } = req.params;
+    const product = await Producto.findByPk(id);
 
-    res.json({
-        msg:'delete Product',
-        id
-    })
+    if(!product){
+        res.status(404).json({
+            msg:'No existe un producto con el id'
+        })
+    }else{
+        await product.destroy();
+        res.json({
+            msg:'El producto fue eliminado'
+        })
+    }
 
 }
 

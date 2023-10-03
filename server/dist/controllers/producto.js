@@ -52,21 +52,44 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.deleteProduct = deleteProduct;
-const postProduct = (req, res) => {
+const postProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
-    res.json({
-        msg: 'post Product',
-        body
-    });
-};
+    try {
+        yield producto_1.default.create(body);
+        res.json({
+            msg: 'El producto fue agregado con exito'
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Ocurrio un error'
+        });
+    }
+});
 exports.postProduct = postProduct;
-const updateProduct = (req, res) => {
+const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     const { id } = req.params;
-    res.json({
-        msg: 'update Product',
-        id,
-        body
-    });
-};
+    try {
+        const product = yield producto_1.default.findByPk(id);
+        if (product) {
+            yield product.update(body);
+            res.json({
+                msg: 'Producto fue actualizado con exito'
+            });
+        }
+        else {
+            res.status(404).json({
+                msg: 'No existe un producto con el id'
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Ocurrio un error'
+        });
+    }
+});
 exports.updateProduct = updateProduct;

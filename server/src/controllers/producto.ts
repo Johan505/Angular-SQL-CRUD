@@ -48,24 +48,49 @@ export const deleteProduct = async (req:Request, res:Response) => {
 }
 
 
-export const postProduct = (req:Request, res:Response) => {
+export const postProduct = async (req:Request, res:Response) => {
     const { body } = req;
+    try{
+        await Producto.create(body);
 
-    res.json({
-        msg:'post Product',
-        body
-    })
+        res.json({
+            msg: 'El producto fue agregado con exito'
+        })
+    }catch(error){
+        console.log(error);
+        res.json({
+            msg:'Ocurrio un error'
+        })
+    }
+    
 
 }
 
-export const updateProduct = (req:Request, res:Response) => {
+export const updateProduct = async(req:Request, res:Response) => {
     const { body } = req;
     const { id } = req.params;
 
-    res.json({
-        msg:'update Product',
-        id,
-        body
-    })
+    try{
+
+         const product = await Producto.findByPk(id);
+
+        if(product){
+                await product.update(body);
+                res.json({
+                    msg:'Producto fue actualizado con exito'
+                })
+         }else{
+                res.status(404).json({
+                    msg:'No existe un producto con el id'
+                })
+        }
+    }catch(error){
+        console.log(error);
+        res.json({
+            msg:'Ocurrio un error'
+        })
+    }
+   
+   
 
 }

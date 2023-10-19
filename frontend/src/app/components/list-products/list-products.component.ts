@@ -7,18 +7,29 @@ import { ProductService } from 'src/app/services/product.service';
   templateUrl: './list-products.component.html',
   styleUrls: ['./list-products.component.css']
 })
-export class ListProductsComponent{
+export class ListProductsComponent implements OnInit{
   listProducts: Product[] = []
+  loading: boolean = false;
 
-  constructor(private _productService:ProductService){}
+  constructor(private _productService : ProductService){}
 
     ngOnInit():void{
-      this.getListProducts
+      this.getListProducts()
     }
 
-    getListProducts(){
-      this._productService.getListProducts().subscribe((data)=>{
+    getListProducts() {
+      this.loading = true;
+
+      this._productService.getListProducts().subscribe((data: Product[]) => {
         this.listProducts = data;
+        this.loading = false;
       })
     }
-  }
+
+    deleteProduct(id: number) {
+      this.loading = true;
+      this._productService.deleteProduct(id).subscribe(() => {
+        this.getListProducts();
+      })
+    }
+}

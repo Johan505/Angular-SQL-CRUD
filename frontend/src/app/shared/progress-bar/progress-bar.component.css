@@ -1,0 +1,34 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.loader-container {
+  width: 200px;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.loader {
+  width: 0;
+  height: 100%;
+  background-color: #007bff;
+  animation: loading 2s ease-in-out infinite;
+}
+
+@keyframes loading {
+  0% {
+      width: 0;
+  }
+  50% {
+      width: 100%;
+  }
+  100% {
+      width: 0;
+  }
+}

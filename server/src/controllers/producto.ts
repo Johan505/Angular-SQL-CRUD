@@ -1,96 +1,86 @@
-import { Request, Response } from "express"
-import Producto from "../models/producto"
+import { Request, Response } from 'express';
+import Producto from '../models/producto';
 
-
-export const getProducts = async(req:Request, res:Response) => {
-        const listProducts = await Producto.findAll()
+export const getProducts = async (req: Request, res: Response) => {
+    const listProducts = await Producto.findAll()
 
     res.json(listProducts)
-
 }
 
-
-export const getProduct = async(req:Request, res:Response) => {
+export const getProduct = async (req: Request, res: Response) => {
     const { id } = req.params;
     const product = await Producto.findByPk(id);
 
-    if(product){
+    if (product) {
         res.json(product)
-    }else{
+    } else {
         res.status(404).json({
-            msg:'No existe un producto con el id ${id}'
+            msg: `No existe un producto con el id ${id}`
         })
     }
-
-    res.json({
-        msg:'get Product',
-        id
-    })
-
 }
 
-
-export const deleteProduct = async (req:Request, res:Response) => {
+export const deleteProduct = async (req: Request, res: Response) => {
     const { id } = req.params;
     const product = await Producto.findByPk(id);
 
-    if(!product){
+    if (!product) {
         res.status(404).json({
-            msg:'No existe un producto con el id'
+            msg: `No existe un producto con el id ${id}`
         })
-    }else{
+    } else {
         await product.destroy();
         res.json({
-            msg:'El producto fue eliminado'
+            msg: 'El producto fue eliminado con exito!'
         })
     }
 
 }
 
-
-export const postProduct = async (req:Request, res:Response) => {
+export const postProduct = async (req: Request, res: Response) => {
     const { body } = req;
-    try{
-        await Producto.create(body);
 
+    try {
+        await Producto.create(body);
         res.json({
-            msg: 'El producto fue agregado con exito'
+            msg: `El producto fue agregado con exito!`
         })
-    }catch(error){
+    } catch (error) {
         console.log(error);
         res.json({
-            msg:'Ocurrio un error'
+            msg: `Upps ocurrio un error, comuniquese con soporte`
         })
     }
-    
-
 }
 
-export const updateProduct = async(req:Request, res:Response) => {
+
+
+export const updateProduct = async (req: Request, res: Response) => {
     const { body } = req;
     const { id } = req.params;
 
-    try{
+    try {
 
-         const product = await Producto.findByPk(id);
+        const product = await Producto.findByPk(id);
 
-        if(product){
-                await product.update(body);
-                res.json({
-                    msg:'Producto fue actualizado con exito'
-                })
-         }else{
-                res.status(404).json({
-                    msg:'No existe un producto con el id'
-                })
-        }
-    }catch(error){
-        console.log(error);
+    if(product) {
+        await product.update(body);
         res.json({
-            msg:'Ocurrio un error'
+            msg: 'El producto fue actualziado con exito'
+        })
+
+    } else {
+        res.status(404).json({
+            msg: `No existe un producto con el id ${id}`
         })
     }
-   
-   
+        
+    } catch (error) {
+        console.log(error);
+        res.json({
+            msg: `Upps ocurrio un error, comuniquese con soporte`
+        })
+    }
 
+    
 }

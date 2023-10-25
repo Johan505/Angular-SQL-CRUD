@@ -25,6 +25,7 @@ export class ProductService {
   }
 
   saveProduct(product: Product): Observable<void> {
+    console.log(product)
     return this.http.post<void>(`${this.myAppUrl}${this.myApiUrl}`,product)
   }
 

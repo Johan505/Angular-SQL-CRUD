@@ -75,6 +75,7 @@ export class AddEditProductComponent implements OnInit {
 
     } else {
       // Es agregar
+      console.log(product)
       this._productService.saveProduct(product).subscribe(() => {
         this.toastr.success(`El producto ${product.name} fue registrado con exito`, 'Producto registrado');
         this.loading = false;
